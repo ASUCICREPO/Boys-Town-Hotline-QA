@@ -49,6 +49,15 @@ const ThickLineIcon = () => (
 function AnalysisContainer({ fileName, onBackToUpload }) {
   const [fileDetails, setFileDetails] = useState([]);
   const [analysisResults, setAnalysisResults] = useState(null);
+  const [processingTextIndex, setProcessingTextIndex] = useState(0);
+  
+  const processingTexts = [
+    'Uploaded Successfully',
+    'Processing',
+    'Transcribing',
+    'Formatting',
+    'Evaluating'
+  ];
 
   const getAgentNameFromFile = (fileName) => {
     const nameWithoutExt = fileName.replace(/\.[^/.]+$/, '');
@@ -98,6 +107,17 @@ function AnalysisContainer({ fileName, onBackToUpload }) {
     });
   }, [fileName]);
 
+  useEffect(() => {
+    const hasProcessingFiles = fileDetails.some(file => file.status === 'processing');
+    if (!hasProcessingFiles) return;
+
+    const interval = setInterval(() => {
+      setProcessingTextIndex(prev => (prev + 1) % processingTexts.length);
+    }, 48000);
+
+    return () => clearInterval(interval);
+  }, [fileDetails, processingTexts.length]);
+
 
 
   const getStatusDisplay = (status) => {
@@ -105,7 +125,7 @@ function AnalysisContainer({ fileName, onBackToUpload }) {
       case 'processing':
         return {
           icon: ProcessingIcon,
-          text: 'Processing....',
+          text: processingTexts[processingTextIndex],
           color: '#124dac'
         };
       case 'completed':
@@ -123,7 +143,7 @@ function AnalysisContainer({ fileName, onBackToUpload }) {
       default:
         return {
           icon: ProcessingIcon,
-          text: 'Processing....',
+          text: processingTexts[processingTextIndex],
           color: '#124dac'
         };
     }

@@ -17,7 +17,7 @@ function AgentCard({ agent, onClick }) {
         <div className="agent-details">
           <h3 className="agent-name">{agent.name}</h3>
           <p className="agent-contact">Contact ID: {agent.contactId}</p>
-          <p className="agent-program">Program: {Array.isArray(agent.program) ? agent.program.join(', ') : agent.program || agent.specialization}</p>
+          <p className="agent-program">Program: {Array.isArray(agent.programs) && agent.programs.length > 0 ? agent.programs.join(', ') : 'No programs assigned'}</p>
           <p className="agent-cases">Total Cases: {agent.totalCases}</p>
         </div>
       </div>

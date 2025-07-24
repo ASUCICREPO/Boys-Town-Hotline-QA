@@ -33,7 +33,7 @@ const processAgentData = (data) => {
         name: CounselorName,
         contactId: CounselorId,
         programs: getStoredPrograms(CounselorId),
-        specialization: getStoredPrograms(CounselorId)[0] || 'National Hotline Program',
+        specialization: 'No programs assigned',
         totalCases: 0,
         evaluations: [],
         firstHalfScores: [],

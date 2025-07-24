@@ -47,7 +47,11 @@ function DashboardContainer() {
   
   const filteredAgents = selectedFilter === 'All' 
     ? agents 
-    : agents.filter(agent => agent.specialization === selectedFilter);
+    : agents.filter(agent => 
+        Array.isArray(agent.programs) 
+          ? agent.programs.includes(selectedFilter)
+          : agent.specialization === selectedFilter
+      );
 
   const handleAgentClick = async (agent) => {
     // Get detailed agent data including evaluations
